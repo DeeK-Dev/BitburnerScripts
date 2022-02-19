@@ -1,12 +1,12 @@
 import { bitNodeCheck } from "helpers.js"
 
 let baseConfig = {
-    bitNodeReq = 4,
-    baseLevel = 10,
-    baseRam = 2,
-    baseCores = 4,
-    baseCache = 1,
-    upgradeAmnt = 1
+    bitNodeReq : 4,
+    baseLevel : 10,
+    baseRam : 2,
+    baseCores : 4,
+    baseCache : 1,
+    upgradeAmnt : 1
 }
 
 
@@ -17,10 +17,10 @@ export async function main(ns) {
 	while (true) {
         const hacknetNodes = ns.getNumNodes()
         let hacknetLimit = {
-            targetLevel = BASE_LEVEL*hacknetNodes,
-            targetRAM = BASE_RAM*hacknetNodes,
-            targetCores = BASE_CORES*hacknetNodes,
-            targetCache = BASE_CACHE*(hacknetNodes/2)
+            targetLevel : BASE_LEVEL*hacknetNodes,
+            targetRAM : BASE_RAM*hacknetNodes,
+            targetCores : BASE_CORES*hacknetNodes,
+            targetCache : BASE_CACHE*(hacknetNodes/2)
         }
 
         while (hacknetNodes < 1 ) {
