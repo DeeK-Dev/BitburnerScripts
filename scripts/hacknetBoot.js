@@ -1,12 +1,12 @@
 import { bitNodeCheck } from "helpers.js"
 
-const baseConfig = {
-    BIT_NODE = 4,
-    BASE_LEVEL = 10,
-    BASE_RAM = 2,
-    BASE_CORES = 4,
-    BASE_CACHE = 1,
-    UPGRADE_AMNT = 1
+let baseConfig = {
+    bitNodeReq = 4,
+    baseLevel = 10,
+    baseRam = 2,
+    baseCores = 4,
+    baseCache = 1,
+    upgradeAmnt = 1
 }
 
 
@@ -29,17 +29,17 @@ export async function main(ns) {
 
         for (let i = 0; i < hacknetNodes; i++) {
             if (ns.hacknet.getNodeStats(i).level < hacknetLimit.targetLevel) {
-                upgradeLevel(ns, i, baseConfig.UPGRADE_AMNT)
+                upgradeLevel(ns, i, baseConfig.upgradeAmnt)
             }
             if (ns.hacknet.getNodeStats(i).ram < hacknetLimit.targetRAM) {
-                upgradeRam(ns, i, baseConfig.UPGRADE_AMNT)
+                upgradeRam(ns, i, baseConfig.upgradeAmnt)
             }
-            if (ns.hacknet.getNodeStats(i).cores < hacknetLimit.targetCores, baseConfig.UPGRADE_AMNT) {
-                upgradeCores(ns, i, baseConfig.UPGRADE_AMNT)
+            if (ns.hacknet.getNodeStats(i).cores < hacknetLimit.targetCores) {
+                upgradeCores(ns, i, baseConfig.upgradeAmnt)
             }
             if (bitNodeCheck){
-                if (ns.hacknet.getNodeStats(i).level < hacknetLimit.targetCache, baseConfig.UPGRADE_AMNT) {
-                    upgradeCache(ns, i, baseConfig.UPGRADE_AMNT)
+                if (ns.hacknet.getNodeStats(i).level < hacknetLimit.targetCache) {
+                    upgradeCache(ns, i, baseConfig.upgradeAmnt)
                 }
             }
 
