@@ -15,12 +15,12 @@ export async function main(ns) {
 	ns.disableLog("getServerMoneyAvailable");
 
 	while (true) {
-        const hacknetNodes = ns.hacknet.getNumNodes()
+        const hacknetNodes = ns.hacknet.NumNodes()
         let hacknetLimit = {
-            targetLevel : BASE_LEVEL*hacknetNodes,
-            targetRAM : BASE_RAM*hacknetNodes,
-            targetCores : BASE_CORES*hacknetNodes,
-            targetCache : BASE_CACHE*(hacknetNodes/2)
+            targetLevel : baseLevel*hacknetNodes,
+            targetRAM : baseRam*hacknetNodes,
+            targetCores : baseCores*hacknetNodes,
+            targetCache : baseCache*(hacknetNodes/2)
         }
 
         while (hacknetNodes < 1 ) {
