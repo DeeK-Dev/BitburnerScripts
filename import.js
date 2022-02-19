@@ -24,15 +24,10 @@ let config = {
   
   async function importFiles(ns) {
     let files = [
-      'autoHack.js',
-      'autoRemoteHack.js',
-      'buyHacknet.js',
       'dashboard.js',
       'hack.js',
-      'hax.js',
-      'purchaseServers.js',
-      'remoteHack.js',
       'serverStatus.js',
+      'hacknetBoot.js'
     ];
     let filesImported = true;
     for (let file of files) {
