@@ -15,7 +15,7 @@ export async function main(ns) {
 	ns.disableLog("getServerMoneyAvailable");
 
 	while (true) {
-        const hacknetNodes = ns.getNumNodes()
+        const hacknetNodes = ns.hacknet.getNumNodes()
         let hacknetLimit = {
             targetLevel : BASE_LEVEL*hacknetNodes,
             targetRAM : BASE_RAM*hacknetNodes,
@@ -45,6 +45,7 @@ export async function main(ns) {
 
         }
         buyNewServer(ns);
+        await ns.sleep(0)
     }
 }
 
