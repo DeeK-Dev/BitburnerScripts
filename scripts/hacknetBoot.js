@@ -2,33 +2,35 @@ import { bitNodeCheck } from "helpers.js"
 const BIT_NODE = 4
 
 let baseConfig = {
-    baseLevel: 10,
+    baseLevel: 6,
     baseRam: 2,
-    baseCores: 4,
+    baseCores: 2,
     baseCache: 1,
     upgradeAmnt: 1
 }
 
 /** @param {NS} ns **/
 export async function main(ns) {
+    ns.tail("/scripts/hacknetBoot.js", "home")
     const bitNodeFlag = bitNodeCheck(ns, BIT_NODE);
     const currentMonies = ns.getServerMoneyAvailable('home');
 
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep")
-    ns.hacknet.upg
 
     while (true) {
         const hacknetNodes = ns.hacknet.numNodes()
         let hacknetLimit = {
-            targetLevel: baseConfig.baseLevel * hacknetNodes,
-            targetRam: baseConfig.baseRam * hacknetNodes,
-            targetCores: baseConfig.baseCores * hacknetNodes,
-            targetCache: Math.round(baseConfig.baseCache * (hacknetNodes / 2))
+            targetLevel: Math.round(baseConfig.baseLevel * (hacknetNodes/1.2) + hacknetNodes),
+            targetRam: Math.round(baseConfig.baseRam + hacknetNodes * 1.5),
+            targetCores: Math.round(baseConfig.baseCores + hacknetNodes * 1.2),
+            targetCache: Math.round((baseConfig.baseCache * hacknetNodes) / 2.5)
         }
 
-        while (hacknetNodes < 1) {
+        while (hacknetNodes === 0) {
+            ns.tprint("Buy first hacknet while loop IN")
             buyNewServer(ns)
+            await ns.sleep(1000)
         }
 
         for (let i = 0; i < hacknetNodes; i++) {
@@ -41,7 +43,6 @@ export async function main(ns) {
             if (ns.hacknet.getNodeStats(i).cores < hacknetLimit.targetCores) {
                 upgCores(ns, i, baseConfig.upgradeAmnt, currentMonies)
             }
-
             if (bitNodeFlag) {
                 if (ns.hacknet.getNodeStats(i).cache < hacknetLimit.targetCache) {
                     upgCache(ns, i, baseConfig.upgradeAmnt, currentMonies)
@@ -70,7 +71,7 @@ function upgLevel(ns, currentNode, amount, currentMonies) {
 
 function upgRam(ns, currentNode, amount, currentMonies) {
     if (ns.hacknet.getRamUpgradeCost(currentNode, amount) < Infinity && currentMonies > ns.hacknet.getRamUpgradeCost(currentNode, amount)) {
-        ns.hacknet.upgradeRam(currentNode, amount) 
+        ns.hacknet.upgradeRam(currentNode, amount)
         ns.print("Upgraded " + ns.hacknet.getNodeStats(currentNode).name + " RAM to " + ns.hacknet.getNodeStats(currentNode).ram);
     }
 }
@@ -84,7 +85,7 @@ function upgCores(ns, currentNode, amount, currentMonies) {
 
 function upgCache(ns, currentNode, amount, currentMonies) {
     if (ns.hacknet.getCacheUpgradeCost(currentNode, amount) < Infinity && currentMonies > ns.hacknet.getCacheUpgradeCost(currentNode, amount)) {
-        ns.hacknet.upgradeCache(currentNode, amount) 
+        ns.hacknet.upgradeCache(currentNode, amount)
         ns.print("Upgraded " + ns.hacknet.getNodeStats(currentNode).name + " Cache to " + ns.hacknet.getNodeStats(currentNode).cache);
     }
 }
