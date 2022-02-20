@@ -2,33 +2,33 @@ import { bitNodeCheck } from "helpers.js"
 const BIT_NODE = 4
 
 let baseConfig = {
-    baseLevel: 6,
+    baseLevel: 5,
     baseRam: 2,
-    baseCores: 2,
+    baseCores: 1,
     baseCache: 1,
-    upgradeAmnt: 1
+    upgradeAmnt: 1,
 }
 
 /** @param {NS} ns **/
 export async function main(ns) {
     ns.tail("/scripts/hacknetBoot.js", "home")
     const bitNodeFlag = bitNodeCheck(ns, BIT_NODE);
-    const currentMonies = ns.getServerMoneyAvailable('home');
 
     ns.disableLog("getServerMoneyAvailable");
     ns.disableLog("sleep")
 
     while (true) {
+        const currentMonies = ns.getServerMoneyAvailable('home');
         const hacknetNodes = ns.hacknet.numNodes()
         let hacknetLimit = {
             targetLevel: Math.round(baseConfig.baseLevel * (hacknetNodes/1.2) + hacknetNodes),
-            targetRam: Math.round(baseConfig.baseRam + hacknetNodes * 1.5),
-            targetCores: Math.round(baseConfig.baseCores + hacknetNodes * 1.2),
+            targetRam: Math.round(baseConfig.baseRam**(hacknetNodes-1)),
+            targetCores: Math.round(baseConfig.baseCores * (hacknetNodes * 1.2)),
             targetCache: Math.round((baseConfig.baseCache * hacknetNodes) / 2.5)
         }
+        ns.print(hacknetLimit)
 
-        while (hacknetNodes === 0) {
-            ns.tprint("Buy first hacknet while loop IN")
+        while (hacknetNodes < 1) {
             buyNewServer(ns)
             await ns.sleep(1000)
         }
