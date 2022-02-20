@@ -21,6 +21,10 @@ let config = {
   }
   
   async function importFiles(ns) {
+    let rootFiles = [
+      'autoUpdate.js',
+      'utils.js'
+    ]
     let files = [
       'dashboard.js',
       'hack.js',
@@ -28,6 +32,12 @@ let config = {
       'hacknetBoot.js'
     ];
     let filesImported = true;
+    for (files of rootFiles) {
+      let remoteFileName = `${config.rootUrl}${file}`;
+      let result = await ns.wget(remoteFileName, `/${file}`);
+      filesImported = filesImported && result;
+      ns.tprint(`Top Level File: ${file}: ${result ? '✔️' : '❌'}`);
+    }
     for (let file of files) {
       let remoteFileName = `${config.rootUrl}scripts/${file}`;
       let result = await ns.wget(remoteFileName, `/${getFolder()}/${file}`);
