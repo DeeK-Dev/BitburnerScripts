@@ -31,22 +31,20 @@ export function spider(ns) {
 }
 
 export async function hacknetServerConfig(ns) {
-	const serverList = spider(ns);		
-	const scriptList = ["nwo-grow.js"];
+	const serverList = spider(ns).filter((server) => server.includes("hacknet"));
+    const target = scriptTarget(ns);	
+	const scriptList = [`${target}-grow.js`, `${target}-weaken.js`];
 
-	for (let i = 0; i < serverList.length; ++i) {
-		if (!serverList[i].includes("home")){
-			if (serverList[i].includes("hacknet")){
-				ns.killall(serverList[i]);
-				for (let j = 0; j < scriptList.length; ++j) {
-					let scriptRam = ns.getScriptRam(scriptList[j]);
-					await ns.scp(scriptList, serverList[i]);
-					ns.exec(scriptList[j], serverList[i], await thread_calc(ns, ns.getServerMaxRam(serverList[i]), scriptRam, await ratiogen(ns, scriptList.length)));
-				}
-			
+	for (let server in serverList) {
+		ns.killall(serverList[server]);
+			for (let script in scriptList) {
+				let scriptRam = ns.getScriptRam(scriptList[j]);
+				await ns.scp(scriptList, serverList[script]);
+				ns.exec(scriptList[script], serverList[server], threadCalc(ns, ns.getServerMaxRam(serverList[server]), scriptRam, ratioGen(ns, scriptList.length)));
 			}
-		}
 	}
+		
+	
 }
 
 export function threadCalc(serverMax, scriptRam, ratio) {
@@ -102,7 +100,7 @@ export function hashControl(ns) {
         ns.hacknet.spendHashes("Sell for Money")
     } else {
         if (ns.hacknet.hashCost("Reduce Minimum Security") < ns.hacknet.numHashes() && ns.getServerMinSecurityLevel(target) > 20) {
-            ns.hacknet.spendHashes("Reduce Minimum Security", "nwo");
+            ns.hacknet.spendHashes("Reduce Minimum Security", target);
             }
         if (ns.hacknet.hashCost("Increase Maximum Money") < ns.hacknet.numHashes()) {
             ns.hacknet.spendHashes("Increase Maximum Money", target);
