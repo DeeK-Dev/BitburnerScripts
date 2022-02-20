@@ -32,7 +32,7 @@ let config = {
       'hacknetBoot.js'
     ];
     let filesImported = true;
-    for (files of rootFiles) {
+    for (file of rootFiles) {
       let remoteFileName = `${config.rootUrl}${file}`;
       let result = await ns.wget(remoteFileName, `/${file}`);
       filesImported = filesImported && result;
