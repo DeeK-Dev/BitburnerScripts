@@ -31,7 +31,7 @@ async function importFiles(ns) {
   let filesImported = true;
   for (let file of rootFiles) {
     let remoteFileName = `${config.rootUrl}${file}`;
-    let result = await ns.wget(remoteFileName, `/${file}`);
+    let result = await ns.wget(remoteFileName, `${file}`);
     filesImported = filesImported && result;
     ns.tprint(`Top Level File: ${file}: ${result ? '✔️' : '❌'}`);
   }
