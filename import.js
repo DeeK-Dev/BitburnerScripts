@@ -1,7 +1,6 @@
 let config = {
   folder: 'scripts',
-  rootUrl: 'https://raw.githubusercontent.com/Deek1337/BitburnerScripts/main/',
-  serverPrefix: 'DeeK',
+  rootUrl: 'https://raw.githubusercontent.com/Deek1337/BitburnerScripts/main/'
 };
 
 export async function main(ns) {
@@ -28,10 +27,11 @@ async function importFiles(ns) {
     'serverStatus.js',
     'hacknetBoot.js'
   ];
+
   let filesImported = true;
   for (let file of rootFiles) {
     let remoteFileName = `${config.rootUrl}${file}`;
-    let result = await ns.wget(remoteFileName, `${file}`);
+    let result = await ns.wget(remoteFileName, `./${file}`);
     filesImported = filesImported && result;
     ns.tprint(`Top Level File: ${file}: ${result ? '✔️' : '❌'}`);
   }
@@ -46,10 +46,6 @@ async function importFiles(ns) {
 
 export function getFolder() {
   return config.folder;
-}
-
-export function getServerPrefix() {
-  return config.serverPrefix;
 }
 
 export function getHackScript() {
