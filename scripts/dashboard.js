@@ -1,4 +1,4 @@
-import { getFolder, getServerPrefix } from 'import.js';
+import { getServerPrefix } from 'import.js';
 import { serverHackStatus, serverReport } from '/scripts/serverStatus.js';
 
 /*
