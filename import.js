@@ -25,7 +25,8 @@ async function importFiles(ns) {
     'dashboard.js',
     'hack.js',
     'serverStatus.js',
-    'hacknetBoot.js'
+    'hacknetBoot.js',
+    'scriptPush'
   ];
 
   let filesImported = true;
